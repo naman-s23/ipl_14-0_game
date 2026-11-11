@@ -1,0 +1,1872 @@
+{
+  "sources": {
+    "ipl_json.zip": "https://cricsheet.org/downloads/ipl_json.zip",
+    "people.csv": "https://cricsheet.org/register/people.csv",
+    "player_meta.csv": "https://robjhyndman.r-universe.dev/cricketdata/data/player_meta/csv",
+    "official results": "https://www.iplt20.com/matches?status=results",
+    "official 2026 final": "https://www.iplt20.com/news/article/tata-ipl-2026-final-rcb-v-gt-match-report",
+    "Cricsheet license": "https://cricsheet.org/licensing/",
+    "official 2026 schedule": "https://documents.iplt20.com/bcci/documents/1774332251856_1773233174530_TATA-IPL-Schedule-2026.pdf"
+  },
+  "hashes": {
+    "ipl_json.zip": "46ff2f5e41147510a55502e52ea8761b216a319974cad907d6ff2d8c2d4be495",
+    "people.csv": "3926fec53340ed8539ba98b420f907ab5e8aced21e8a61138d313adc1ed8a42b",
+    "player_meta.csv": "e3488fc62bc02a740a3afd0618d751b71920fe8cf9023631a37b923283056718",
+    "data/scorecards.json": "4110b51593db5c84b2853fb5cd6745c2be0c93d014d14a781d0882412c66686b",
+    "data/player-overrides.json": "1c8c53ad72a47849fe4859e2baeea5735cea1c508e31220600ccd8088cf90054",
+    "data/coverage-notes.json": "2aa29378d83830086e747c6dddc7b62c0415e3ded81a584724dccc3e09d90714"
+  },
+  "notes": {
+    "noPlay": [
+      {
+        "season": 2008,
+        "number": 47,
+        "source": "https://www.financialexpress.com/sports/no-playnbspabandoned-matches-in-ipl-history-a-brief-overview/3494692/lite/",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2009,
+        "number": 7,
+        "source": "https://www.cricbuzz.com/live-cricket-scorecard/10599/mi-vs-rr-7th-match-indian-premier-league-2009",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2009,
+        "number": 13,
+        "source": "https://www.cricbuzz.com/cricket-series/2059/indian-premier-league-2009-ipl/matches",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2011,
+        "number": 20,
+        "source": "https://m.cricbuzz.com/cricket-series/2037/indian-premier-league-2011-ipl/matches",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2012,
+        "number": 32,
+        "source": "https://www.iplt20.com/news/article/report-match-32-kkr-vs-dc",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2012,
+        "number": 34,
+        "source": "https://www.iplt20.com/news/article/report-match-34-rcb-v-csk",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2015,
+        "number": 25,
+        "source": "https://www.iplt20.com/news/article/report-m25-kkr-vs-rr",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2017,
+        "number": 29,
+        "source": "https://www.iplt20.com/news/article/washout-forces-rcb-srh-to-split-points",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2024,
+        "number": 63,
+        "source": "https://www.iplt20.com/news/article/tata-ipl-2024-match-63-gt-vs-kkr-match-report",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2024,
+        "number": 66,
+        "source": "https://www.iplt20.com/news/article/tata-ipl-2024-match-66-srh-vs-gt-match-report",
+        "status": "Abandoned without a ball bowled"
+      },
+      {
+        "season": 2024,
+        "number": 70,
+        "source": "https://www.iplt20.com/news/article/tata-ipl-2024-match-70-rr-vs-kkr-match-report",
+        "status": "Abandoned without a ball bowled"
+      }
+    ],
+    "officialFinal": {
+      "source": "https://www.iplt20.com/news/article/tata-ipl-2026-final-rcb-v-gt-match-report",
+      "season": 2026,
+      "date": "2026-05-31",
+      "winner": "Royal Challengers Bengaluru",
+      "scores": [
+        161,
+        155
+      ]
+    },
+    "limitations": [
+      "The official results JSON endpoint returned 404 and official auction PDFs returned 403 during import preparation. Official published match reports and retention records were used instead.",
+      "The cancelled May 8, 2025 PBKS–DC game was replaced by the later fixture. Its voided deliveries are not present in this archive.",
+      "Keeping ratings measure verified scorecard dismissals per keeping appearance. Missed chances and byes attributable to individual keepers are unavailable.",
+      "Player bowling styles are metadata classifications. Mixed pace/spin styles are left unclassified when the discipline of individual deliveries is unknown."
+    ]
+  },
+  "finalVerification": {
+    "matchId": "1535465",
+    "winner": "Royal Challengers Bengaluru",
+    "scores": {
+      "Gujarat Titans": 155,
+      "Royal Challengers Bengaluru": 161
+    },
+    "matchesOfficialReport": true
+  },
+  "scorecards": {
+    "source": "https://site.api.espn.com/apis/site/v2/sports/cricket/8048/summary?event={matchId}",
+    "downloaded": 745,
+    "expected": 1243,
+    "missing": [
+      "335982",
+      "335983",
+      "335989",
+      "335991",
+      "335992",
+      "335996",
+      "335997",
+      "335998",
+      "336000",
+      "336004",
+      "336007",
+      "336009",
+      "336010",
+      "336011",
+      "336012",
+      "336016",
+      "336017",
+      "336018",
+      "336019",
+      "336020",
+      "336021",
+      "336023",
+      "336024",
+      "336025",
+      "336026",
+      "336039",
+      "392181",
+      "392194",
+      "392195",
+      "392196",
+      "392197",
+      "392198",
+      "392199",
+      "392200",
+      "392201",
+      "392202",
+      "392203",
+      "392204",
+      "392205",
+      "392206",
+      "392207",
+      "392208",
+      "392209",
+      "392210",
+      "392211",
+      "392212",
+      "392213",
+      "392214",
+      "392215",
+      "392217",
+      "392218",
+      "392219",
+      "392221",
+      "392224",
+      "392225",
+      "392227",
+      "392230",
+      "392232",
+      "392233",
+      "419106",
+      "419107",
+      "419108",
+      "419109",
+      "419110",
+      "419115",
+      "419117",
+      "419120",
+      "419124",
+      "419125",
+      "419126",
+      "419127",
+      "419128",
+      "419129",
+      "419130",
+      "419132",
+      "419133",
+      "419134",
+      "419135",
+      "419136",
+      "419138",
+      "419141",
+      "419145",
+      "419147",
+      "419151",
+      "419155",
+      "419156",
+      "419160",
+      "501198",
+      "501200",
+      "501201",
+      "501203",
+      "501204",
+      "501205",
+      "501206",
+      "501207",
+      "501208",
+      "501209",
+      "501212",
+      "501213",
+      "501214",
+      "501215",
+      "501216",
+      "501219",
+      "501220",
+      "501222",
+      "501223",
+      "501225",
+      "501226",
+      "501227",
+      "501228",
+      "501230",
+      "501235",
+      "501241",
+      "501242",
+      "501243",
+      "501244",
+      "501246",
+      "501247",
+      "501249",
+      "501250",
+      "501251",
+      "501252",
+      "501253",
+      "501263",
+      "501266",
+      "501267",
+      "501268",
+      "501269",
+      "501270",
+      "501271",
+      "548326",
+      "548327",
+      "548328",
+      "548329",
+      "548330",
+      "548331",
+      "548332",
+      "548333",
+      "548334",
+      "548335",
+      "548348",
+      "548350",
+      "548351",
+      "548352",
+      "548354",
+      "548355",
+      "548356",
+      "548357",
+      "548358",
+      "548359",
+      "548361",
+      "548364",
+      "548366",
+      "548367",
+      "548381",
+      "598003",
+      "598004",
+      "598009",
+      "598011",
+      "598014",
+      "598015",
+      "598016",
+      "598017",
+      "598018",
+      "598019",
+      "598020",
+      "598021",
+      "598023",
+      "598025",
+      "598026",
+      "598034",
+      "598035",
+      "598036",
+      "598037",
+      "598038",
+      "598039",
+      "598040",
+      "598041",
+      "598042",
+      "598043",
+      "598048",
+      "598055",
+      "598056",
+      "598057",
+      "598058",
+      "598059",
+      "598060",
+      "729279",
+      "729281",
+      "729283",
+      "729285",
+      "729287",
+      "729289",
+      "729291",
+      "729293",
+      "729295",
+      "729297",
+      "729299",
+      "729301",
+      "729303",
+      "729305",
+      "729311",
+      "733971",
+      "733981",
+      "733987",
+      "733995",
+      "734003",
+      "734013",
+      "734019",
+      "734021",
+      "734023",
+      "734025",
+      "734027",
+      "734029",
+      "734035",
+      "734045",
+      "734047",
+      "829705",
+      "829709",
+      "829715",
+      "829717",
+      "829719",
+      "829721",
+      "829725",
+      "829731",
+      "829733",
+      "829743",
+      "829751",
+      "829759",
+      "829761",
+      "829763",
+      "829795",
+      "829823",
+      "980913",
+      "980917",
+      "980919",
+      "980921",
+      "980923",
+      "980925",
+      "980927",
+      "980929",
+      "980931",
+      "980933",
+      "980935",
+      "980937",
+      "980939",
+      "980941",
+      "980943",
+      "980945",
+      "980947",
+      "980949",
+      "980951",
+      "980953",
+      "980955",
+      "980957",
+      "980959",
+      "980961",
+      "980963",
+      "980965",
+      "980967",
+      "980969",
+      "980971",
+      "980973",
+      "980975",
+      "980977",
+      "980989",
+      "980999",
+      "981005",
+      "981009",
+      "981011",
+      "981013",
+      "981015",
+      "981017",
+      "1082591",
+      "1082593",
+      "1082594",
+      "1082598",
+      "1082599",
+      "1082601",
+      "1082603",
+      "1082604",
+      "1082605",
+      "1082607",
+      "1082608",
+      "1082609",
+      "1082611",
+      "1082613",
+      "1082615",
+      "1082617",
+      "1082620",
+      "1082621",
+      "1082637",
+      "1082639",
+      "1082642",
+      "1082643",
+      "1082644",
+      "1082645",
+      "1082646",
+      "1082649",
+      "1136587",
+      "1136590",
+      "1136591",
+      "1136592",
+      "1136596",
+      "1136598",
+      "1136604",
+      "1136609",
+      "1136612",
+      "1136620",
+      "1175356",
+      "1175358",
+      "1175359",
+      "1178395",
+      "1178397",
+      "1178399",
+      "1178400",
+      "1178402",
+      "1178405",
+      "1178407",
+      "1178409",
+      "1178411",
+      "1178412",
+      "1178414",
+      "1178415",
+      "1178416",
+      "1178417",
+      "1178419",
+      "1178420",
+      "1178421",
+      "1216492",
+      "1216493",
+      "1216495",
+      "1216496",
+      "1216497",
+      "1216498",
+      "1216499",
+      "1216500",
+      "1216502",
+      "1216503",
+      "1216504",
+      "1216505",
+      "1216506",
+      "1216507",
+      "1216510",
+      "1216511",
+      "1216512",
+      "1216514",
+      "1216516",
+      "1216517",
+      "1216518",
+      "1216519",
+      "1216534",
+      "1216538",
+      "1216539",
+      "1216541",
+      "1216542",
+      "1216544",
+      "1216547",
+      "1254058",
+      "1254059",
+      "1254063",
+      "1254065",
+      "1254066",
+      "1254068",
+      "1254069",
+      "1254070",
+      "1254071",
+      "1254073",
+      "1254074",
+      "1254076",
+      "1254080",
+      "1254086",
+      "1254088",
+      "1254094",
+      "1254100",
+      "1254104",
+      "1254105",
+      "1254107",
+      "1254108",
+      "1254110",
+      "1254111",
+      "1254112",
+      "1254113",
+      "1254114",
+      "1254116",
+      "1304047",
+      "1304049",
+      "1304055",
+      "1304056",
+      "1304057",
+      "1304058",
+      "1304059",
+      "1304060",
+      "1304062",
+      "1304064",
+      "1304066",
+      "1304068",
+      "1304069",
+      "1304070",
+      "1304072",
+      "1304073",
+      "1304075",
+      "1304077",
+      "1304078",
+      "1304079",
+      "1304080",
+      "1304083",
+      "1304084",
+      "1304085",
+      "1304087",
+      "1304089",
+      "1304090",
+      "1304091",
+      "1304093",
+      "1304095",
+      "1304096",
+      "1304097",
+      "1304098",
+      "1304103",
+      "1304104",
+      "1304105",
+      "1304106",
+      "1304108",
+      "1304109",
+      "1304110",
+      "1304111",
+      "1304112",
+      "1304113",
+      "1304115",
+      "1304116",
+      "1312197",
+      "1312198",
+      "1312199",
+      "1312200",
+      "1422127",
+      "1422128",
+      "1422130",
+      "1422133",
+      "1422137",
+      "1426260",
+      "1426263",
+      "1426266",
+      "1426267",
+      "1426269",
+      "1426270",
+      "1426272",
+      "1426273",
+      "1426274",
+      "1426276",
+      "1426277",
+      "1426278",
+      "1426279",
+      "1426281",
+      "1426282",
+      "1426283",
+      "1426284",
+      "1426285",
+      "1426286",
+      "1426289",
+      "1426290",
+      "1426292",
+      "1426293",
+      "1426294",
+      "1426295",
+      "1426297",
+      "1426299",
+      "1426300",
+      "1426302",
+      "1426305",
+      "1426306",
+      "1426309",
+      "1426310",
+      "1426311",
+      "1473439",
+      "1473440",
+      "1473441",
+      "1473442",
+      "1473443",
+      "1473479",
+      "1473485",
+      "1473486",
+      "1473488",
+      "1473490",
+      "1473493",
+      "1473495",
+      "1473498",
+      "1473499",
+      "1473502",
+      "1473506",
+      "1527684",
+      "1529280",
+      "1529283",
+      "1529302",
+      "1529305",
+      "1529312",
+      "1529313",
+      "1535463",
+      "1535464"
+    ],
+    "verifiedTeamInnings": 1486
+  },
+  "seasons": {
+    "2008": {
+      "scheduled": 59,
+      "imported": 58,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Semi Final",
+          "id": "336038",
+          "date": "2008-05-30"
+        },
+        {
+          "stage": "Semi Final",
+          "id": "336039",
+          "date": "2008-05-31"
+        },
+        {
+          "stage": "Final",
+          "id": "336040",
+          "date": "2008-06-01"
+        }
+      ],
+      "lastMatch": "2008-06-01",
+      "missingNumbered": [
+        47
+      ],
+      "scheduleDelta": 1,
+      "absentFixtures": [
+        {
+          "season": 2008,
+          "number": 47,
+          "source": "https://www.financialexpress.com/sports/no-playnbspabandoned-matches-in-ipl-history-a-brief-overview/3494692/lite/",
+          "status": "Abandoned without a ball bowled"
+        }
+      ],
+      "unresolved": []
+    },
+    "2009": {
+      "scheduled": 59,
+      "imported": 57,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Semi Final",
+          "id": "392237",
+          "date": "2009-05-22"
+        },
+        {
+          "stage": "Semi Final",
+          "id": "392238",
+          "date": "2009-05-23"
+        },
+        {
+          "stage": "Final",
+          "id": "392239",
+          "date": "2009-05-24"
+        }
+      ],
+      "lastMatch": "2009-05-24",
+      "missingNumbered": [
+        7,
+        13
+      ],
+      "scheduleDelta": 2,
+      "absentFixtures": [
+        {
+          "season": 2009,
+          "number": 7,
+          "source": "https://www.cricbuzz.com/live-cricket-scorecard/10599/mi-vs-rr-7th-match-indian-premier-league-2009",
+          "status": "Abandoned without a ball bowled"
+        },
+        {
+          "season": 2009,
+          "number": 13,
+          "source": "https://www.cricbuzz.com/cricket-series/2059/indian-premier-league-2009-ipl/matches",
+          "status": "Abandoned without a ball bowled"
+        }
+      ],
+      "unresolved": []
+    },
+    "2010": {
+      "scheduled": 60,
+      "imported": 60,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Semi Final",
+          "id": "419162",
+          "date": "2010-04-21"
+        },
+        {
+          "stage": "Semi Final",
+          "id": "419163",
+          "date": "2010-04-22"
+        },
+        {
+          "stage": "3rd Place Play-Off",
+          "id": "419164",
+          "date": "2010-04-24"
+        },
+        {
+          "stage": "Final",
+          "id": "419165",
+          "date": "2010-04-25"
+        }
+      ],
+      "lastMatch": "2010-04-25",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2011": {
+      "scheduled": 74,
+      "imported": 73,
+      "noResult": [
+        "501265"
+      ],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "501268",
+          "date": "2011-05-24"
+        },
+        {
+          "stage": "Elimination Final",
+          "id": "501269",
+          "date": "2011-05-25"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "501270",
+          "date": "2011-05-27"
+        },
+        {
+          "stage": "Final",
+          "id": "501271",
+          "date": "2011-05-28"
+        }
+      ],
+      "lastMatch": "2011-05-28",
+      "missingNumbered": [
+        20
+      ],
+      "scheduleDelta": 1,
+      "absentFixtures": [
+        {
+          "season": 2011,
+          "number": 20,
+          "source": "https://m.cricbuzz.com/cricket-series/2037/indian-premier-league-2011-ipl/matches",
+          "status": "Abandoned without a ball bowled"
+        }
+      ],
+      "unresolved": []
+    },
+    "2012": {
+      "scheduled": 76,
+      "imported": 74,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "548378",
+          "date": "2012-05-22"
+        },
+        {
+          "stage": "Elimination Final",
+          "id": "548379",
+          "date": "2012-05-23"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "548380",
+          "date": "2012-05-25"
+        },
+        {
+          "stage": "Final",
+          "id": "548381",
+          "date": "2012-05-27"
+        }
+      ],
+      "lastMatch": "2012-05-27",
+      "missingNumbered": [
+        32,
+        34
+      ],
+      "scheduleDelta": 2,
+      "absentFixtures": [
+        {
+          "season": 2012,
+          "number": 32,
+          "source": "https://www.iplt20.com/news/article/report-match-32-kkr-vs-dc",
+          "status": "Abandoned without a ball bowled"
+        },
+        {
+          "season": 2012,
+          "number": 34,
+          "source": "https://www.iplt20.com/news/article/report-match-34-rcb-v-csk",
+          "status": "Abandoned without a ball bowled"
+        }
+      ],
+      "unresolved": []
+    },
+    "2013": {
+      "scheduled": 76,
+      "imported": 76,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "598070",
+          "date": "2013-05-21"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "598071",
+          "date": "2013-05-22"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "598072",
+          "date": "2013-05-24"
+        },
+        {
+          "stage": "Final",
+          "id": "598073",
+          "date": "2013-05-26"
+        }
+      ],
+      "lastMatch": "2013-05-26",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2014": {
+      "scheduled": 60,
+      "imported": 60,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "734043",
+          "date": "2014-05-27"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "734045",
+          "date": "2014-05-28"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "734047",
+          "date": "2014-05-30"
+        },
+        {
+          "stage": "Final",
+          "id": "734049",
+          "date": "2014-06-01"
+        }
+      ],
+      "lastMatch": "2014-06-01",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2015": {
+      "scheduled": 60,
+      "imported": 59,
+      "noResult": [
+        "829763",
+        "829813"
+      ],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "829817",
+          "date": "2015-05-19"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "829819",
+          "date": "2015-05-20"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "829821",
+          "date": "2015-05-22"
+        },
+        {
+          "stage": "Final",
+          "id": "829823",
+          "date": "2015-05-24"
+        }
+      ],
+      "lastMatch": "2015-05-24",
+      "missingNumbered": [
+        25
+      ],
+      "scheduleDelta": 1,
+      "absentFixtures": [
+        {
+          "season": 2015,
+          "number": 25,
+          "source": "https://www.iplt20.com/news/article/report-m25-kkr-vs-rr",
+          "status": "Abandoned without a ball bowled"
+        }
+      ],
+      "unresolved": []
+    },
+    "2016": {
+      "scheduled": 60,
+      "imported": 60,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "981013",
+          "date": "2016-05-24"
+        },
+        {
+          "stage": "Elimination Final",
+          "id": "981015",
+          "date": "2016-05-25"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "981017",
+          "date": "2016-05-27"
+        },
+        {
+          "stage": "Final",
+          "id": "981019",
+          "date": "2016-05-29"
+        }
+      ],
+      "lastMatch": "2016-05-29",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2017": {
+      "scheduled": 60,
+      "imported": 59,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1082647",
+          "date": "2017-05-16"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1082648",
+          "date": "2017-05-17"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1082649",
+          "date": "2017-05-19"
+        },
+        {
+          "stage": "Final",
+          "id": "1082650",
+          "date": "2017-05-21"
+        }
+      ],
+      "lastMatch": "2017-05-21",
+      "missingNumbered": [
+        29
+      ],
+      "scheduleDelta": 1,
+      "absentFixtures": [
+        {
+          "season": 2017,
+          "number": 29,
+          "source": "https://www.iplt20.com/news/article/washout-forces-rcb-srh-to-split-points",
+          "status": "Abandoned without a ball bowled"
+        }
+      ],
+      "unresolved": []
+    },
+    "2018": {
+      "scheduled": 60,
+      "imported": 60,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1136617",
+          "date": "2018-05-22"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1136618",
+          "date": "2018-05-23"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1136619",
+          "date": "2018-05-25"
+        },
+        {
+          "stage": "Final",
+          "id": "1136620",
+          "date": "2018-05-27"
+        }
+      ],
+      "lastMatch": "2018-05-27",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2019": {
+      "scheduled": 60,
+      "imported": 60,
+      "noResult": [
+        "1178424"
+      ],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1181764",
+          "date": "2019-05-07"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1181766",
+          "date": "2019-05-08"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1181767",
+          "date": "2019-05-10"
+        },
+        {
+          "stage": "Final",
+          "id": "1181768",
+          "date": "2019-05-12"
+        }
+      ],
+      "lastMatch": "2019-05-12",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2020": {
+      "scheduled": 60,
+      "imported": 60,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1237177",
+          "date": "2020-11-05"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1237178",
+          "date": "2020-11-06"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1237180",
+          "date": "2020-11-08"
+        },
+        {
+          "stage": "Final",
+          "id": "1237181",
+          "date": "2020-11-10"
+        }
+      ],
+      "lastMatch": "2020-11-10",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2021": {
+      "scheduled": 60,
+      "imported": 60,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1254114",
+          "date": "2021-10-10"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1254115",
+          "date": "2021-10-11"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1254116",
+          "date": "2021-10-13"
+        },
+        {
+          "stage": "Final",
+          "id": "1254117",
+          "date": "2021-10-15"
+        }
+      ],
+      "lastMatch": "2021-10-15",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2022": {
+      "scheduled": 74,
+      "imported": 74,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1312197",
+          "date": "2022-05-24"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1312198",
+          "date": "2022-05-25"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1312199",
+          "date": "2022-05-27"
+        },
+        {
+          "stage": "Final",
+          "id": "1312200",
+          "date": "2022-05-29"
+        }
+      ],
+      "lastMatch": "2022-05-29",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2023": {
+      "scheduled": 74,
+      "imported": 74,
+      "noResult": [
+        "1359519"
+      ],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1370350",
+          "date": "2023-05-23"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1370351",
+          "date": "2023-05-24"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1370352",
+          "date": "2023-05-26"
+        },
+        {
+          "stage": "Final",
+          "id": "1370353",
+          "date": "2023-05-29"
+        }
+      ],
+      "lastMatch": "2023-05-29",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2024": {
+      "scheduled": 74,
+      "imported": 71,
+      "noResult": [],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1426309",
+          "date": "2024-05-21"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1426310",
+          "date": "2024-05-22"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1426311",
+          "date": "2024-05-24"
+        },
+        {
+          "stage": "Final",
+          "id": "1426312",
+          "date": "2024-05-26"
+        }
+      ],
+      "lastMatch": "2024-05-26",
+      "missingNumbered": [
+        63,
+        66,
+        70
+      ],
+      "scheduleDelta": 3,
+      "absentFixtures": [
+        {
+          "season": 2024,
+          "number": 63,
+          "source": "https://www.iplt20.com/news/article/tata-ipl-2024-match-63-gt-vs-kkr-match-report",
+          "status": "Abandoned without a ball bowled"
+        },
+        {
+          "season": 2024,
+          "number": 66,
+          "source": "https://www.iplt20.com/news/article/tata-ipl-2024-match-66-srh-vs-gt-match-report",
+          "status": "Abandoned without a ball bowled"
+        },
+        {
+          "season": 2024,
+          "number": 70,
+          "source": "https://www.iplt20.com/news/article/tata-ipl-2024-match-70-rr-vs-kkr-match-report",
+          "status": "Abandoned without a ball bowled"
+        }
+      ],
+      "unresolved": []
+    },
+    "2025": {
+      "scheduled": 74,
+      "imported": 74,
+      "noResult": [
+        "1473481",
+        "1473492",
+        "1473495"
+      ],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1473508",
+          "date": "2025-05-29"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1473509",
+          "date": "2025-05-30"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1473510",
+          "date": "2025-06-01"
+        },
+        {
+          "stage": "Final",
+          "id": "1473511",
+          "date": "2025-06-03"
+        }
+      ],
+      "lastMatch": "2025-06-03",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    },
+    "2026": {
+      "scheduled": 74,
+      "imported": 74,
+      "noResult": [
+        "1527685"
+      ],
+      "playoffs": [
+        {
+          "stage": "Qualifier 1",
+          "id": "1535462",
+          "date": "2026-05-26"
+        },
+        {
+          "stage": "Eliminator",
+          "id": "1535463",
+          "date": "2026-05-27"
+        },
+        {
+          "stage": "Qualifier 2",
+          "id": "1535464",
+          "date": "2026-05-29"
+        },
+        {
+          "stage": "Final",
+          "id": "1535465",
+          "date": "2026-05-31"
+        }
+      ],
+      "lastMatch": "2026-05-31",
+      "missingNumbered": [],
+      "scheduleDelta": 0,
+      "absentFixtures": [],
+      "unresolved": []
+    }
+  },
+  "appearances": 1958,
+  "people": 809,
+  "pairs": 57,
+  "missingIdentity": [],
+  "missingCountry": [],
+  "missingStyle": [
+    "Andrew Symonds",
+    "Nitish Rana",
+    "Shashank Singh"
+  ],
+  "unverifiedKeeperWindows": [
+    {
+      "id": "7daedf2f",
+      "name": "Arun Karthik",
+      "team": "CSK",
+      "cycle": 0
+    },
+    {
+      "id": "fe11caa6",
+      "name": "Wriddhiman Saha",
+      "team": "CSK",
+      "cycle": 1
+    },
+    {
+      "id": "b8a55852",
+      "name": "Brendon McCullum",
+      "team": "CSK",
+      "cycle": 2
+    },
+    {
+      "id": "df5a6881",
+      "name": "Devon Conway",
+      "team": "CSK",
+      "cycle": 4
+    },
+    {
+      "id": "df5a6881",
+      "name": "Devon Conway",
+      "team": "CSK",
+      "cycle": 5
+    },
+    {
+      "id": "7b679de5",
+      "name": "Kartik Sharma",
+      "team": "CSK",
+      "cycle": 5
+    },
+    {
+      "id": "cf59b3f0",
+      "name": "Urvil Patel",
+      "team": "CSK",
+      "cycle": 5
+    },
+    {
+      "id": "c4487b84",
+      "name": "AB de Villiers",
+      "team": "DC",
+      "cycle": 0
+    },
+    {
+      "id": "afa7e784",
+      "name": "Matthew Wade",
+      "team": "DC",
+      "cycle": 1
+    },
+    {
+      "id": "855a210c",
+      "name": "Aditya Tare",
+      "team": "DC",
+      "cycle": 2
+    },
+    {
+      "id": "c16d4035",
+      "name": "Sam Billings",
+      "team": "DC",
+      "cycle": 2
+    },
+    {
+      "id": "890946a0",
+      "name": "Naman Ojha",
+      "team": "DC",
+      "cycle": 3
+    },
+    {
+      "id": "57ca01b3",
+      "name": "Kumar Kushagra",
+      "team": "DC",
+      "cycle": 4
+    },
+    {
+      "id": "1fc6ef83",
+      "name": "Shai Hope",
+      "team": "DC",
+      "cycle": 4
+    },
+    {
+      "id": "44a89551",
+      "name": "Srikar Bharat",
+      "team": "DC",
+      "cycle": 4
+    },
+    {
+      "id": "4663bd23",
+      "name": "Tim Seifert",
+      "team": "DC",
+      "cycle": 4
+    },
+    {
+      "id": "85b3fab2",
+      "name": "Tristan Stubbs",
+      "team": "DC",
+      "cycle": 4
+    },
+    {
+      "id": "b8a55852",
+      "name": "Brendon McCullum",
+      "team": "GL",
+      "cycle": 2
+    },
+    {
+      "id": "b274dbbd",
+      "name": "Eklavya Dwivedi",
+      "team": "GL",
+      "cycle": 2
+    },
+    {
+      "id": "752f7486",
+      "name": "Ishan Kishan",
+      "team": "GL",
+      "cycle": 2
+    },
+    {
+      "id": "9a46c4e5",
+      "name": "Glenn Phillips",
+      "team": "GT",
+      "cycle": 5
+    },
+    {
+      "id": "57ca01b3",
+      "name": "Kumar Kushagra",
+      "team": "GT",
+      "cycle": 5
+    },
+    {
+      "id": "710dd98c",
+      "name": "MN van Wyk",
+      "team": "KKR",
+      "cycle": 0
+    },
+    {
+      "id": "75de770f",
+      "name": "Tatenda Taibu",
+      "team": "KKR",
+      "cycle": 0
+    },
+    {
+      "id": "b0c772ee",
+      "name": "BJ Haddin",
+      "team": "KKR",
+      "cycle": 1
+    },
+    {
+      "id": "aedc3b7c",
+      "name": "Nikhil Naik",
+      "team": "KKR",
+      "cycle": 3
+    },
+    {
+      "id": "4663bd23",
+      "name": "Tim Seifert",
+      "team": "KKR",
+      "cycle": 3
+    },
+    {
+      "id": "25f7b7d6",
+      "name": "Tom Banton",
+      "team": "KKR",
+      "cycle": 3
+    },
+    {
+      "id": "b8a55852",
+      "name": "Brendon McCullum",
+      "team": "KTK",
+      "cycle": 1
+    },
+    {
+      "id": "989889ff",
+      "name": "Josh Inglis",
+      "team": "LSG",
+      "cycle": 5
+    },
+    {
+      "id": "1c84109e",
+      "name": "Mukul Choudhary",
+      "team": "LSG",
+      "cycle": 5
+    },
+    {
+      "id": "3241e3fd",
+      "name": "Nicholas Pooran",
+      "team": "LSG",
+      "cycle": 5
+    },
+    {
+      "id": "855a210c",
+      "name": "Aditya Tare",
+      "team": "MI",
+      "cycle": 1
+    },
+    {
+      "id": "272d796e",
+      "name": "Ben Dunk",
+      "team": "MI",
+      "cycle": 2
+    },
+    {
+      "id": "85b3fab2",
+      "name": "Tristan Stubbs",
+      "team": "MI",
+      "cycle": 4
+    },
+    {
+      "id": "bafd0398",
+      "name": "Robin Minz",
+      "team": "MI",
+      "cycle": 5
+    },
+    {
+      "id": "c03f1114",
+      "name": "Dinesh Karthik",
+      "team": "PBKS",
+      "cycle": 1
+    },
+    {
+      "id": "aedc3b7c",
+      "name": "Nikhil Naik",
+      "team": "PBKS",
+      "cycle": 2
+    },
+    {
+      "id": "9418198b",
+      "name": "Prabhsimran Singh",
+      "team": "PBKS",
+      "cycle": 4
+    },
+    {
+      "id": "c4487b84",
+      "name": "AB de Villiers",
+      "team": "RCB",
+      "cycle": 2
+    },
+    {
+      "id": "5afd4539",
+      "name": "Manvinder  Bisla",
+      "team": "RCB",
+      "cycle": 2
+    },
+    {
+      "id": "b8a55852",
+      "name": "Brendon McCullum",
+      "team": "RCB",
+      "cycle": 3
+    },
+    {
+      "id": "235c2bb6",
+      "name": "Heinrich Klaasen",
+      "team": "RCB",
+      "cycle": 3
+    },
+    {
+      "id": "39086549",
+      "name": "JR Philippe",
+      "team": "RCB",
+      "cycle": 3
+    },
+    {
+      "id": "3d284ca3",
+      "name": "Phil Salt",
+      "team": "RCB",
+      "cycle": 5
+    },
+    {
+      "id": "3a02626a",
+      "name": "Amit Paunikar",
+      "team": "RR",
+      "cycle": 0
+    },
+    {
+      "id": "063b3673",
+      "name": "Dishant Yagnik",
+      "team": "RR",
+      "cycle": 2
+    },
+    {
+      "id": "c8f5f961",
+      "name": "Anuj Rawat",
+      "team": "RR",
+      "cycle": 3
+    },
+    {
+      "id": "9a46c4e5",
+      "name": "Glenn Phillips",
+      "team": "RR",
+      "cycle": 3
+    },
+    {
+      "id": "bcf325d2",
+      "name": "Dhruv Jurel",
+      "team": "RR",
+      "cycle": 4
+    },
+    {
+      "id": "99b75528",
+      "name": "Jos Buttler",
+      "team": "RR",
+      "cycle": 4
+    },
+    {
+      "id": "60aa2db3",
+      "name": "Lhuan-dre Pretorius",
+      "team": "RR",
+      "cycle": 5
+    },
+    {
+      "id": "548516a6",
+      "name": "Ravi Singh",
+      "team": "RR",
+      "cycle": 5
+    },
+    {
+      "id": "855a210c",
+      "name": "Aditya Tare",
+      "team": "SRH",
+      "cycle": 2
+    }
+  ],
+  "dhoni": [
+    {
+      "id": "4a8a2e3b",
+      "name": "MS Dhoni",
+      "team": "CSK",
+      "cycle": 2,
+      "matches": 33,
+      "country": "India",
+      "overseas": false,
+      "style": "pace",
+      "roles": [
+        "bat",
+        "wk"
+      ],
+      "pos": 5,
+      "innings": 32,
+      "bat": {
+        "balls": 555,
+        "runs": 743,
+        "wickets": 17,
+        "overall": 0.034,
+        "edge": [
+          -0.007,
+          -0.196,
+          0.227
+        ],
+        "phases": [
+          [
+            1,
+            0,
+            0,
+            -0.753,
+            -0.026
+          ],
+          [
+            245,
+            206,
+            7,
+            -76.013,
+            -2.294
+          ],
+          [
+            309,
+            537,
+            10,
+            21.849,
+            -13.525
+          ]
+        ],
+        "fours": 49,
+        "sixes": 37
+      },
+      "bowl": {
+        "balls": 0,
+        "runs": 0,
+        "wickets": 0,
+        "dots": 0,
+        "overall": 0,
+        "edge": [
+          0,
+          0,
+          0
+        ],
+        "phases": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "keeping": {
+        "matches": 17,
+        "scorecardMatches": 16,
+        "stumpings": 4,
+        "catches": 8,
+        "dismissals": 12,
+        "edge": -0.092
+      },
+      "fielding": {
+        "catches": 0,
+        "innings": 0,
+        "edge": 0
+      },
+      "ratings": {
+        "bat": 79,
+        "wk": 90
+      }
+    },
+    {
+      "id": "4a8a2e3b",
+      "name": "MS Dhoni",
+      "team": "CSK",
+      "cycle": 5,
+      "matches": 14,
+      "country": "India",
+      "overseas": false,
+      "style": "pace",
+      "roles": [
+        "bat",
+        "wk"
+      ],
+      "pos": 7.3,
+      "innings": 13,
+      "bat": {
+        "balls": 145,
+        "runs": 196,
+        "wickets": 8,
+        "overall": 0.015,
+        "edge": [
+          0,
+          -0.028,
+          0.039
+        ],
+        "phases": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            29,
+            20,
+            0,
+            -11.256,
+            -1.616
+          ],
+          [
+            116,
+            176,
+            8,
+            -6.44,
+            -2.861
+          ]
+        ],
+        "fours": 12,
+        "sixes": 12
+      },
+      "bowl": {
+        "balls": 0,
+        "runs": 0,
+        "wickets": 0,
+        "dots": 0,
+        "overall": 0,
+        "edge": [
+          0,
+          0,
+          0
+        ],
+        "phases": [
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "keeping": {
+        "matches": 13,
+        "scorecardMatches": 12,
+        "stumpings": 5,
+        "catches": 5,
+        "dismissals": 10,
+        "edge": -0.008
+      },
+      "fielding": {
+        "catches": 0,
+        "innings": 0,
+        "edge": 0
+      },
+      "ratings": {
+        "bat": 54,
+        "wk": 52
+      }
+    }
+  ]
+}
