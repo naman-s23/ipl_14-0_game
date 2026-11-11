@@ -1,5 +1,7 @@
 # 14–0: IPL Draft Challenge
 
+**[Play the game here](https://classy-klepon-5de775.netlify.app/)**
+
 **Draft six IPL cricketers. Build an XI. Try to win all 14 matches.**
 
 14–0 is a browser game where every pick starts with a spin. The reels draw an IPL franchise and an auction cycle, and you pick from the players who represented that franchise during that window. A player’s stats and ratings come from the window you drafted them in, so the same player can be a very different pick in another era.
