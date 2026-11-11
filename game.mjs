@@ -157,8 +157,7 @@ const battingPlan = [
   [0,.15,.85], [0,.10,.90], [0,.10,.90]
 ];
 const battingExposure = [26,26,22,18,15,12,8,4,2,1,.5];
-// Preserve the previous perfect-season rate after replacing the fixed batting slots.
-const automaticOrderCalibration = 4.75;
+const battingCalibration = 5.5;
 const positionFit = (p, i) => {
   const usual = p.pos ?? 9;
   return Math.abs((i < 2 ? 2 : i+1) - Math.max(2, usual));
@@ -216,7 +215,7 @@ export function simulate(picks, seed, strengths = profile(picks)) {
   const noise = () => (random()+random()+random()+random()+random()+random()-3)*18.3;
   const matches = slate.map(([opponent, venue, par, difficulty, spinFit, paceFit], i) => {
     const balance = Math.min(2, Math.max(0, opening), Math.max(0, finishing));
-    const bat = opening + middleBat + finishing + balance - automaticOrderCalibration;
+    const bat = opening + middleBat + finishing + balance - battingCalibration;
     const defense = spin*spinFit + (death+newBall)*paceFit + allRound + keeping + fielding;
     const own = Math.max(65, Math.round(par+bat+noise()));
     let against = Math.max(65, Math.round(par+difficulty-defense+noise()));
