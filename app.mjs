@@ -13,6 +13,7 @@ let hardMode = false;
 let spinning = false;
 let spinTimer;
 let dragged;
+let touchDrag;
 const spinDuration = 1600;
 const teamColors = {
   CSK:'#f5c94b', DC:'#6e9cf4', GT:'#9daeed', KKR:'#bc9bed', LSG:'#7fbbef',
@@ -29,11 +30,13 @@ function lineup(picks) {
       const p=picks.get(id);
       const moves = p&&!spinning ? slots.filter(([to])=>draft.canMove(id,to)) : [];
       return `<li class="slot ${p?'filled':''}" data-drop-slot="${id}"${teamTint(hardMode?null:p?.team)}><span class="slot-num">${String(i+1).padStart(2,'0')}</span>
-        <div><strong ${moves.length?`draggable="true" data-drag-slot="${id}"`:''}>${p?esc(p.name):label}</strong>
+        <div class="slot-player" ${moves.length?`draggable="true" data-drag-slot="${id}"`:''}><strong>${p?esc(p.name):label}</strong>
         <small>${p?(hardMode?label:`${label} · ${p.team} · ${cycles[p.cycle]}`):'Open slot'}</small>
+        </div>
+        ${p?`<span class="rating slot-rating" aria-label="Role rating ${p.ratings[slotRole[id]]}">${p.ratings[slotRole[id]]}</span>`:''}
         ${moves.length?`<select class="role-move" data-role-move="${id}" aria-label="Move ${esc(p.name)} to another role">
           <option value="">Move role…</option>${moves.map(([to,,name])=>`<option value="${to}">${name}${picks.has(to)?' (swap)':''}</option>`).join('')}
-        </select>`:''}</div></li>`;
+        </select>`:''}</li>`;
     }).join('')}</ol>
     <p class="footnote"><strong class="accent">${[...picks.values()].filter(p=>p.overseas).length} / ${overseasCap}</strong> overseas picks used</p>
     <details class="support"><summary>Five fixed domestic support roles</summary><ul>${support.map(role=>`<li>${role}</li>`).join('')}</ul></details>
@@ -50,11 +53,12 @@ function reel(axis, label, choices, selected, value, flip) {
     const color = axis==='team' ? `color-mix(in srgb, ${teamColors[choice]} 35%, #17201f)` : colors[i%colors.length];
     return `${color} ${i*step}deg ${(i+1)*step}deg`;
   }).join(',');
+  const wheelTag=draft?'div':'button';
   return `<div class="reel"><span class="eyebrow">${label}</span>
-    <div class="wheel-frame" aria-hidden="true"><div class="wheel ${active?'spinning':''}"
+    <${wheelTag} class="wheel-frame" ${draft?'aria-hidden="true"':'type="button" data-start aria-label="Spin both draft wheels"'}><span class="wheel ${active?'spinning':''}"
       style="--rotation:${rotation}deg;--spin-duration:${spinDuration}ms;background:conic-gradient(from ${-step/2}deg,${sectors})">
       ${choices.map((choice,i)=>`<span style="--sector:${i*step}deg">${choice}</span>`).join('')}
-    </div></div>
+    </span></${wheelTag}>
     <div class="face">${axis==='team'&&!active&&selected>=0?`<span class="franchise-mark" aria-hidden="true">${choices[selected]}</span>`:''}<strong>${active?'Spinning…':value}</strong></div>
     <button class="secondary" data-respin="${axis}" ${can&&!spinning?'':'disabled'} title="${count&&!can?'No valid alternative on this reel':''}">↻ Respin ${axis} <span class="accent">· ${count} left</span></button></div>`;
 }
@@ -64,8 +68,14 @@ function draftScreen(flip) {
     <div class="reels">${reel('team','FRANCHISE',Object.keys(teams),Object.keys(teams).indexOf(pair?.team),pair?teams[pair.team]:'Awaiting spin',flip)}
     ${reel('cycle','AUCTION CYCLE',cycles.map(cycle=>cycle.slice(2,4)+'–'+cycle.slice(-2)),pair?.cycle ?? -1,pair?cycles[pair.cycle]:'Awaiting spin',flip)}</div></section>
     <section class="panel pool" id="pool" tabindex="-1" aria-busy="${spinning}">${spinning?'<p class="aside-note">Drawing the next board…</p>':pair?'':`<div class="section-head"><h2>On the board</h2></div>
-      <div class="empty"><p>Spin to draw a franchise and era. Choose a player and an open slot, then the next round spins automatically.</p>
-        <p><label for="difficulty">Difficulty</label> <select id="difficulty"><option value="standard" ${!hardMode?'selected':''}>Standard</option><option value="hard" ${hardMode?'selected':''}>Hard · names only</option></select></p>
+      <div class="empty"><h3>How to play</h3>
+        <p>Spin to draw an IPL franchise and auction cycle. Draft one player per round by dragging them into an eligible slot or tapping their role. Move or swap picks between eligible slots as you go.</p>
+        <p>You have one respin per wheel and can draft up to ${overseasCap} overseas players. Draft six players, then simulate 14 matches and try to win them all.</p>
+        <fieldset class="mode-toggle"><legend>Difficulty</legend>
+          <label><input type="radio" name="difficulty" value="standard" ${!hardMode?'checked':''}><span>Normal</span></label>
+          <label><input type="radio" name="difficulty" value="hard" ${hardMode?'checked':''}><span>Hard</span></label>
+        </fieldset>
+        <p class="footnote">Hard mode reveals ratings after you draft each player.</p>
         <button class="primary" data-start>Spin the reels →</button></div>`}</section>`;
 }
 const rate = (n,d,m,places=1) => d ? (n/d*m).toFixed(places) : '—';
@@ -124,6 +134,12 @@ function orderScreen() {
 }
 function resultsScreen() {
   const {wins,matches}=result;
+  const {opening,middleBat,finishing,spin,death,newBall,allRound,keeping,fielding}=result.strengths;
+  const units=[
+    ['Opening batting',opening],['Middle-order batting',middleBat],['Finishing',finishing],
+    ['Middle-overs spin',spin],['Pace bowling',death+newBall],['All-rounder bowling',allRound],
+    ['Wicketkeeping',keeping],['Fielding',fielding]
+  ].sort((a,b)=>b[1]-a[1]);
   const closeLosses=matches.filter(match=>!match.won && match.margin<=10).length;
   const [verdict,summary]=wins===14
     ? ['Perfect season','Fourteen played, fourteen won. You completed the 14–0 Challenge.']
@@ -143,6 +159,10 @@ function resultsScreen() {
   return `<section class="panel results"><span class="eyebrow">FINAL RECORD</span>
     <h2 class="record" tabindex="-1" id="record" aria-describedby="season-summary">${wins}–${14-wins}</h2>
     <div class="season-summary" id="season-summary"><strong>${verdict}</strong><p>${summary}</p></div>
+    <dl class="team-review">
+      <div><dt>Strongest fit</dt><dd>${units[0][0]}</dd></div>
+      <div><dt>Weakest link</dt><dd>${units.at(-1)[0]}</dd></div>
+    </dl>
     <div class="result-actions">
       <button class="secondary retry" type="button" data-share-team>Share team</button>
       <button class="primary retry" data-retry>Retry game</button>
@@ -207,7 +227,7 @@ function spin(axis) {
 function restart() {
   clearTimeout(spinTimer);
   spinning=false;
-  dragged=undefined;
+  clearDrag();
   draft=undefined; order=undefined; result=undefined;
   seed=randomSeed(); sort='rating'; showAll=false;
   render();
@@ -241,8 +261,30 @@ function movePlayer(from, to) {
 }
 function clearDrag() {
   dragged=undefined;
+  touchDrag=undefined;
   for (const target of game.querySelectorAll('.drop-ready')) target.classList.remove('drop-ready');
 }
+game.addEventListener('pointerdown',event=>{
+  if (event.pointerType!=='touch' || spinning || touchDrag) return;
+  const source=event.target.closest('[data-drag-slot]');
+  if (!source) return;
+  const from=source.dataset.dragSlot;
+  const targets=slots.filter(([to])=>draft.canMove(from,to)).map(([to])=>to);
+  if (!targets.length) return;
+  source.setPointerCapture(event.pointerId);
+  touchDrag={from,targets,id:event.pointerId};
+  for (const to of targets) game.querySelector(`[data-drop-slot="${to}"]`)?.classList.add('drop-ready');
+});
+game.addEventListener('pointerup',event=>{
+  if (!touchDrag || touchDrag.id!==event.pointerId) return;
+  const {from,targets}=touchDrag;
+  const to=document.elementFromPoint(event.clientX,event.clientY)?.closest('[data-drop-slot]')?.dataset.dropSlot;
+  clearDrag();
+  if (!spinning && targets.includes(to)) movePlayer(from,to);
+});
+game.addEventListener('pointercancel',event=>{
+  if (touchDrag?.id===event.pointerId) clearDrag();
+});
 game.addEventListener('dragstart',event=>{
   const source = event.target.closest('[data-drag-slot], [data-drag-player]');
   if (!source || spinning) return;
@@ -279,7 +321,7 @@ game.addEventListener('change',event=>{
     movePlayer(from,event.target.value);
     return;
   }
-  if (event.target.id==='difficulty' && !draft) {
+  if (event.target.name==='difficulty' && !draft) {
     hardMode=event.target.value==='hard';
     return;
   }
