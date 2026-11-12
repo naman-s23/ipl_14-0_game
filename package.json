@@ -1,0 +1,20 @@
+{
+  "name": "ipl-14-0-game",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "IPL Draft Challenge - Draft six IPL cricketers and chase a perfect 14-match season",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "ipl",
+    "cricket",
+    "draft",
+    "game"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vercel/analytics": "^2.0.1"
+  }
+}
