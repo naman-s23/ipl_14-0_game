@@ -42,31 +42,28 @@ function lineup(picks) {
     <details class="support"><summary>Five fixed domestic support roles</summary><ul>${support.map(role=>`<li>${role}</li>`).join('')}</ul></details>
   </aside>`;
 }
-function reel(axis, label, choices, selected, value, flip) {
+function reel(axis, label, choices, selected, flip) {
   const count=draft?.remaining[axis] ?? 1;
   const can=Boolean(draft?.canRespin(axis));
   const active = spinning && (flip===axis || flip==='both');
-  const step = 360/choices.length;
-  const rotation = selected < 0 ? 0 : -step*selected;
-  const colors = ['#263c32','#3d5947','#4e653c'];
-  const sectors = choices.map((choice,i)=>{
-    const color = axis==='team' ? `color-mix(in srgb, ${teamColors[choice]} 35%, #17201f)` : colors[i%colors.length];
-    return `${color} ${i*step}deg ${(i+1)*step}deg`;
-  }).join(',');
-  const wheelTag=draft?'div':'button';
-  return `<div class="reel"><span class="eyebrow">${label}</span>
-    <${wheelTag} class="wheel-frame" ${draft?'aria-hidden="true"':'type="button" data-start aria-label="Spin both draft wheels"'}><span class="wheel ${active?'spinning':''}"
-      style="--rotation:${rotation}deg;--spin-duration:${spinDuration}ms;background:conic-gradient(from ${-step/2}deg,${sectors})">
-      ${choices.map((choice,i)=>`<span style="--sector:${i*step}deg">${choice}</span>`).join('')}
-    </span></${wheelTag}>
-    <div class="face">${axis==='team'&&!active&&selected>=0?`<span class="franchise-mark" aria-hidden="true">${choices[selected]}</span>`:''}<strong>${active?'Spinning…':value}</strong></div>
+  const value=choices[selected] ?? '—';
+  const values=active?Array.from({length:9},(_,i)=>choices[(selected+i+choices.length*2-8)%choices.length]):[value];
+  const tag=draft?'div':'button';
+  const description=active?'Spinning':axis==='team'?(teams[value] ?? value):value;
+  return `<div class="reel reel-${axis}">
+    <${tag} class="reel-front" ${draft?'':'type="button" data-start aria-label="Spin both draft reels"'}>
+      <span class="eyebrow">${label}</span><span class="sr-only">${description}</span>
+      <span class="reel-window" aria-hidden="true"><span class="reel-strip${active?' spinning':''}" style="--spin-duration:${spinDuration}ms">
+        ${values.map(item=>`<span>${item}</span>`).join('')}
+      </span></span>
+    </${tag}>
     <button class="secondary" data-respin="${axis}" ${can&&!spinning?'':'disabled'} title="${count&&!can?'No valid alternative on this reel':''}">↻ Respin ${axis} <span class="accent">· ${count} left</span></button></div>`;
 }
 function draftScreen(flip) {
   const pair=draft?.pair;
   return `<section class="panel reel-panel" tabindex="-1"><div class="section-head"><h2>Draft reels</h2><span class="badge">ROUND ${(draft?.picks.size ?? 0)+1} / 6</span></div>
-    <div class="reels">${reel('team','FRANCHISE',Object.keys(teams),Object.keys(teams).indexOf(pair?.team),pair?teams[pair.team]:'Awaiting spin',flip)}
-    ${reel('cycle','AUCTION CYCLE',cycles.map(cycle=>cycle.slice(2,4)+'–'+cycle.slice(-2)),pair?.cycle ?? -1,pair?cycles[pair.cycle]:'Awaiting spin',flip)}</div></section>
+    <div class="reels">${reel('team','TEAM',Object.keys(teams),Object.keys(teams).indexOf(pair?.team),flip)}
+    ${reel('cycle','ERA',cycles,pair?.cycle ?? -1,flip)}</div></section>
     <section class="panel pool" id="pool" tabindex="-1" aria-busy="${spinning}">${spinning?'<p class="aside-note">Drawing the next board…</p>':pair?'':`<div class="section-head"><h2>On the board</h2></div>
       <div class="empty"><h3>How to play</h3>
         <p>Spin to draw an IPL franchise and auction cycle. Draft one player per round by dragging them into an eligible slot or tapping their role. Move or swap picks between eligible slots as you go.</p>
@@ -112,19 +109,25 @@ function card(p,eligible,index) {
   </article>`;
 }
 let visible = [];
+let roleFilter = 'all';
+const roleFilters = {all:'All',bat:'Batters',wk:'WK',ar:'AR',sp:'Spinners',pc:'Pacers'};
 function renderPool() {
   const pool=document.querySelector('#pool');
   const options=draft.options;
   const best = p => Math.max(0,...(options.get(p) ?? []).map(id=>p.ratings[slotRole[id]]));
   const sorts = {rating:(a,b)=>best(b)-best(a),matches:(a,b)=>b.matches-a.matches,name:(a,b)=>a.name.localeCompare(b.name),
     batting:(a,b)=>b.bat.runs-a.bat.runs,bowling:(a,b)=>b.bowl.wickets-a.bowl.wickets};
-  visible=(showAll&&!hardMode?draft.pair.players:[...options.keys()]).slice().sort((a,b)=>sorts[hardMode?'name':sort](a,b)||a.name.localeCompare(b.name));
+  visible=(showAll&&!hardMode?draft.pair.players:[...options.keys()])
+    .filter(p=>roleFilter==='all'||p.roles.includes(roleFilter))
+    .sort((a,b)=>sorts[hardMode?'name':sort](a,b)||a.name.localeCompare(b.name));
   pool.innerHTML=`<div class="section-head"><h2>On the board <span class="badge">${options.size} eligible</span></h2>
     ${hardMode?'<span class="badge">Hard · names only</span>':`<div class="controls"><label class="sr-only" for="sort">Sort player cards</label><select id="sort">
       ${Object.entries({rating:'Best slot rating',matches:'Most matches',name:'Player name',batting:'Most runs',bowling:'Most wickets'}).map(([id,label])=>`<option value="${id}" ${sort===id?'selected':''}>${label}</option>`).join('')}
     </select><label class="footnote"><input type="checkbox" id="all" ${showAll?'checked':''}> All appearances</label></div>`}</div>
+    <div class="role-filters" role="group" aria-label="Filter players by role">${Object.entries(roleFilters).map(([id,label])=>
+      `<button type="button" class="quiet" data-filter="${id}" aria-pressed="${roleFilter===id}">${label}</button>`).join('')}</div>
     <p class="aside-note"><span class="drag-hint">Drag a player to an eligible slot, or select a role on their card.</span><span class="tap-hint">Tap a role to draft a player.</span></p>
-    <div class="cards">${visible.map((p,i)=>card(p,options.get(p),i)).join('')}</div>`;
+    <div class="cards">${visible.length?visible.map((p,i)=>card(p,options.get(p),i)).join(''):'<p class="footnote">No players match this role on this board.</p>'}</div>`;
 }
 function orderScreen() {
   return `<section class="panel order"><div class="section-head"><h2>Your batting XI</h2><span class="badge">6 / 6 DRAFTED</span></div>
@@ -207,7 +210,7 @@ function render(flip) {
   reset.hidden=!draft||Boolean(result);
   document.querySelector('.hero-index').textContent=result?'03 / THE SEASON':order?'02 / THE ORDER':'01 / THE DRAFT';
   game.innerHTML=result?resultsScreen():
-    `<div class="board"><div class="draft-main"${teamTint(spinning?null:draft?.pair?.team)}>${order?orderScreen():draftScreen(flip)}</div>${lineup(picks)}</div>`;
+    `<div class="board"><div class="draft-main"${teamTint(spinning&&flip!=='cycle'?null:draft?.pair?.team)}>${order?orderScreen():draftScreen(flip)}</div>${lineup(picks)}</div>`;
   if (draft?.pair && !spinning) renderPool();
 }
 function spin(axis) {
@@ -225,6 +228,7 @@ function spin(axis) {
   },spinDuration);
 }
 function restart() {
+  roleFilter='all';
   clearTimeout(spinTimer);
   spinning=false;
   clearDrag();
@@ -336,12 +340,16 @@ game.addEventListener('change',event=>{
 game.addEventListener('click',event=>{
   const button=event.target.closest('button');
   if (!button || spinning) return;
-  const {start,respin,slot,player,shareTeam,retry:retryButton}=button.dataset;
+  const {start,respin,slot,player,filter,shareTeam,retry:retryButton}=button.dataset;
   if (start!==undefined) {
     draft=createDraft(players);
     spin('both');
   } else if (respin && draft.respin(respin)) {
     spin(respin);
+  } else if (filter) {
+    roleFilter=filter;
+    renderPool();
+    game.querySelector(`[data-filter="${filter}"]`)?.focus();
   } else if (slot) {
     draftPlayer(visible[Number(player)],slot);
   } else if (shareTeam!==undefined) {
