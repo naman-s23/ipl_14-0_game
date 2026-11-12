@@ -1754,6 +1754,9 @@
         "dismissals": 12,
         "edge": -0.038
       },
+      "battingModes": [
+        1
+      ],
       "fielding": {
         "catches": 0,
         "innings": 0,
@@ -1858,6 +1861,9 @@
         "dismissals": 10,
         "edge": -0.025
       },
+      "battingModes": [
+        2
+      ],
       "fielding": {
         "catches": 0,
         "innings": 0,
