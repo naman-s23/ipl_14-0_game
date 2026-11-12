@@ -173,7 +173,7 @@ async function shareTeamResult() {
   if (!result) return;
   const currentResult=result;
   const record=`${result.wins}–${14-result.wins}`;
-  const url='https://classy-klepon-5de775.netlify.app/';
+  const url='https://ipl14-0game.vercel.app/';
   const roster=order.filter(({player})=>player).map(({name,player})=>
     `• ${name} (${player.team}, ${cycles[player.cycle]})`).join('\n');
   const message=`I went ${record} in the IPL 14–0 Challenge!\n\nMy six picks:\n${roster}`;
