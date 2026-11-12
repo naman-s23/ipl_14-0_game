@@ -25,31 +25,35 @@ Every imported player has an identity and country classification. Three bowlers 
 ## Ratings and simulation
 
 - **Batter.** A documented batting role or at least 36 balls and an average batting position of 7.5 or higher up the order.
-- **Wicketkeeper.** A match-specific keeper designation or a recorded stumping in the drawn window. The keeper rating uses both batting and verified keeping dismissals per match, compared with the corresponding seasons. The keeping term uses a 12-match prior and includes only scorecard-designated appearances in its rate.
+- **Wicketkeeper.** A match-specific keeper designation or a recorded stumping in the drawn window. The keeper rating uses both batting and verified keeping dismissals per match, compared with the auction cycle. The keeping term uses a 12-match prior and includes only scorecard-designated appearances in its rate.
 - **All-rounder.** At least 60 balls faced and 60 legal balls bowled, with an average batting position of 8 or higher up the order. The rating gives batting and bowling equal base weight and also uses the difference between their averages.
-- **Spinner or pacer.** At least 48 legal balls bowled and a documented style. The spinner rating emphasizes middle overs and the pacer rating emphasizes the death.
+- **Spinner or pacer.** At least 48 legal balls bowled and a documented style. The spinner rating weights overall and middle-over bowling quality 60/40. The pacer rating weights overall, powerplay, and death bowling quality 65/25/10. The pacer simulation uses workload weights of 12, 3, and 11 for powerplay, middle, and death.
 
-Powerplay uses the recorded mandatory powerplay when available. A standard innings uses overs 1–6, 7–15, and 16–20. Batting compares runs and dismissals per ball against eligible peers in the same season, phase, and batting-position band. Bowling uses charged runs, credited wickets, and scoreless legal deliveries. The model values a dismissal at five runs and a dot above expectation at 0.7 runs. A phase with no peer deliveries uses the league benchmark for that season and phase. Small samples are pulled toward average. Super overs are excluded from ball-by-ball ratings.
+Powerplay uses the recorded mandatory powerplay when available. A standard innings uses overs 1–6, 7–15, and 16–20. Batting compares runs and dismissals per ball against eligible peers in the same auction cycle, phase, and batting-position band. Bowling uses charged runs, credited wickets, and scoreless legal deliveries. For powerplay, middle, and death respectively, an extra bowling wicket is worth 9, 5, and 3 runs, and an extra dot is worth 0.65, 0.70, and 0.85 runs. The batting model values each dismissal at five runs. A phase with no peer deliveries uses the league benchmark for that cycle and phase. The simulator uses league benchmarks pooled across each cycle. Small samples are pulled toward average. Super overs are excluded from ball-by-ball ratings.
 
-Season scores give linear volume credit for runs (0.055 each), wickets (0.9), verified keeper dismissals (0.55), and matches (0.4), before the role weights. All-rounders split their run and wicket credit evenly and retain the stabilized batting-minus-bowling average adjustment. Each season score is centered against eligible peers for that role. The cycle score sums those margins and divides by the square root of seasons played. On the display scale, 60 represents neutral performance, and roughly the top 8% of each role and cycle score 90 or above.
+Cycle scores give linear volume credit for runs (0.055 each), wickets (0.9), verified keeper dismissals (0.55), and matches (0.4), before the role weights. All-rounders split their run and wicket credit evenly and retain the stabilized batting-minus-bowling average adjustment. Each franchise stint is scored over the full cycle and centered against eligible peers for that role and cycle. On the display scale, 60 represents neutral performance, and roughly the top 8% of each role and cycle score 90 or above.
 
-Fielding adds 0.75 season-score points per recorded catch, plus six times the extra catches per full fielding innings after an eight-innings cushion. The same-season benchmark uses catches by listed fielders. Recorded Impact Player swaps adjust the share of legal balls each player was on the field. The simulator applies a smaller fielding contribution to runs saved. Caught-and-bowled dismissals count as catches. Keeper dismissals are credited separately, and ambiguous catches by known keepers are skipped when scorecards are unavailable. The data records completed catches without a difficulty grade.
+Fielding adds 0.75 cycle-score points per recorded catch, plus six times the extra catches per full fielding innings after an eight-innings cushion. The cycle benchmark uses catches by listed fielders. Recorded Impact Player swaps adjust the share of legal balls each player was on the field. The simulator applies a smaller fielding contribution to runs saved. Caught-and-bowled dismissals count as catches. Keeper dismissals are credited separately, and ambiguous catches by known keepers are skipped when scorecards are unavailable. The data records completed catches without a difficulty grade.
 
-CSK Dhoni is a regression check. His **2014–2017** line is **743 runs off 555 balls in 33 matches**, rated **79 as a batter and 90 as keeper**. His **2025–2026** line is **196 off 145 in 14 matches**, rated **54 and 52**. The newer window has a slightly higher raw strike rate. The older window's death-overs scoring was **21.8 runs above** its season and position benchmarks, with **13.5 fewer dismissals** than expected across **309 balls**. In the newer window the corresponding figures are **6.4 runs below** and **2.9 fewer dismissals** over **116 balls**. The older window earns more credit for batting and keeping volume relative to its seasonal peers.
+CSK Dhoni is a regression check. His **2014–2017** line is **743 runs off 555 balls in 33 matches**, rated **74 as a batter and 83 as keeper**. His **2025–2026** line is **196 off 145 in 14 matches**, rated **50 and 47**.
 
 The simulator compares full-innings scores for a fixed schedule of 14 opponent and venue profiles. Historical phase edges apply to expected workload for the assigned batting positions and bowling jobs. Openers and finishers can add a small complement bonus, middle-overs spin benefits more on turning surfaces, and a pacer's death edge matters more at pace-friendly venues. A uniform scoring adjustment keeps the perfect-season rate close to the previous model after automatic placement. The opponent strength, venue par, wicket value, and random scoring variation are game-model assumptions. The results page shows the final win–loss record and a Retry game button.
+
+For simulated batting, each pick's above- or below-average contribution applies only to their historical balls faced in that franchise and cycle. The simulator uses those balls starting in match one, at the assigned slot's workload per match. If the budget runs out mid-match, the remaining balls contribute at league average. Bowling contributions use the existing phase model across the full slate.
+
+Three fixtures add three extra runs to the opponent's projection compared with the previous slate: SRH at Hyderabad, the second CSK match at Chepauk, and the final RCB match at Chinnaswamy. The random score adjustment has a standard deviation of about 13.6 runs per innings, up from 12.9.
 
 ## Verification
 
 `node --test` covers both respins, blocked respins, duplicate prevention, the overseas cap, slot feasibility, 30 complete historical drafts, automatic batting assignment, the 2026 final, the Dhoni check, and same-seed repeatability. The UI event-handler test exercises a complete draft, the batting XI, and results rendering with a DOM adapter. Synthetic fixtures exist only in the edge-case unit test.
 
-The balance batch uses 60 seeded drafts per strategy and 100 shared season seeds per draft. The balanced strategy prioritizes strong role ratings and batting phase strengths. The weaker strategy prioritizes low role ratings. All strategies use the same automatic batting assignment.
+The current balance benchmark uses 60 seeded drafts per strategy and 100 shared season seeds per draft. The balanced strategy prioritizes strong role ratings and batting phase strengths. The weaker strategy prioritizes low role ratings. All strategies use automatic batting assignment.
 
 | Strategy | Seasons | Average wins | 14–0 |
 | --- | ---: | ---: | ---: |
-| Balanced | 6,000 | 10.48 | 173 (2.88%) |
-| Random | 6,000 | 5.03 | 0 |
-| Weaker | 6,000 | 1.47 | 0 |
+| Balanced | 6,000 | 9.82 | 113 (1.88%) |
+| Random | 6,000 | 5.35 | 0 |
+| Weaker | 6,000 | 2.45 | 0 |
 
-The previous fixed-slot model produced 171 perfect seasons (2.85%) for the same balanced drafts and seeds.
+Before the fixture and score variation changes, the same balanced drafts and season seeds produced 159 perfect seasons (2.65%) and averaged 10.09 wins.
 
