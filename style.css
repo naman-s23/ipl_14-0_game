@@ -37,20 +37,20 @@ h1 em{font-style:normal;color:var(--accent)}
 .section-head{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:13px}
 h2{font-size:21px;line-height:1.2;letter-spacing:-.035em}
 .reels{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.reel{display:flex;flex-direction:column;min-height:121px;padding:12px;background:#0e1615;border:1px solid var(--line);border-top:2px solid #688758;border-radius:8px}
-.reel .face{display:flex;align-items:center;gap:9px;margin:6px 0 11px;min-height:33px}
-.reel strong{font-size:clamp(15px,2.25vw,23px);letter-spacing:-.045em;line-height:1.05}
-.reel button{margin-top:auto;align-self:start}
-.wheel-frame{position:relative;width:min(100%,180px);aspect-ratio:1;margin:12px auto 2px}
-button.wheel-frame{display:block;padding:0;border:0;border-radius:50%;background:none;cursor:pointer}
-button.wheel-frame:hover .wheel,button.wheel-frame:focus-visible .wheel{border-color:var(--accent)}
-.wheel-frame::after{content:"";position:absolute;z-index:1;top:-5px;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top:14px solid #c2fa83}
-.wheel{position:absolute;inset:0;border:2px solid #688758;border-radius:50%;transform:rotate(var(--rotation))}
-.wheel::after{content:"";position:absolute;inset:43%;border-radius:50%;background:#101a15;border:1px solid #688758}
-.wheel span{position:absolute;inset:5% 0 50%;text-align:center;transform-origin:50% 100%;transform:rotate(var(--sector));font-size:clamp(8px,1.4vw,11px);font-weight:700;color:#fff}
-.wheel.spinning{animation:wheel-spin var(--spin-duration) cubic-bezier(.15,.68,.19,1) both}
-@keyframes wheel-spin{from{transform:rotate(calc(var(--rotation) - 1540deg))}to{transform:rotate(var(--rotation))}}
-@media(prefers-reduced-motion:reduce){.wheel.spinning{animation:none;transform:none}}
+.reel{min-width:0;display:grid;gap:9px;align-content:start;--reel-color:#ff7833}
+.reel-team{--reel-color:var(--team-color)}
+.reel-cycle{--reel-color:#b96aff}
+.reel-front{position:relative;display:grid;justify-items:center;align-content:center;min-height:110px;padding:10px 4px;border:3px solid var(--reel-color);border-radius:18px;background:#101217;color:var(--text);box-shadow:0 0 22px color-mix(in srgb,var(--reel-color) 20%,transparent)}
+button.reel-front{width:100%;cursor:pointer}
+.reel-front .eyebrow{color:var(--reel-color);font-weight:800}
+.reel-window{display:block;overflow:hidden;height:1.25em;width:100%;font-size:clamp(24px,5vw,48px);font-weight:900;text-align:center;line-height:1.25}
+.reel-strip,.reel-strip > span{display:block}
+.reel-strip.spinning{animation:reel-spin var(--spin-duration) cubic-bezier(.15,.7,.25,1) both}
+@keyframes reel-spin{to{transform:translateY(-10em)}}
+@media(prefers-reduced-motion:reduce){.reel-strip.spinning{animation:none;transform:translateY(-10em)}}
+.role-filters{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
+.role-filters button{min-height:38px}
+.role-filters [aria-pressed=true]{background:var(--team-color);color:#101217;border-color:var(--team-color)}
 .card h4{margin:10px 0 0;font-size:.8rem}
 .stats{row-gap:10px}
 .badge{font-size:10px;white-space:nowrap;border:1px solid var(--line);border-radius:5px;padding:4px 6px;color:var(--dim)}
@@ -139,7 +139,17 @@ footer b{color:var(--accent)}
   background:linear-gradient(135deg,color-mix(in srgb,var(--team-color) 10%,var(--panel)),var(--panel) 64%);
   border-color:color-mix(in srgb,var(--team-color) 27%,var(--line));
 }
-.draft-main .reel:first-child{border-top-color:var(--team-color)}
+.draft-main .pool{border-color:color-mix(in srgb,var(--team-color) 27%,var(--line))}
+.draft-main .card .rating,.draft-main .card .pick{
+  color:var(--team-color);
+  border-color:color-mix(in srgb,var(--team-color) 32%,var(--line));
+  background:color-mix(in srgb,var(--team-color) 10%,#17201f);
+}
+.draft-main .card .pick:hover{
+  color:#101217;
+  border-color:var(--team-color);
+  background:var(--team-color);
+}
 .franchise-mark{
   display:grid;place-items:center;flex:none;min-width:42px;min-height:32px;padding:0 6px;
   border:1px solid color-mix(in srgb,var(--team-color) 40%,var(--line));border-radius:6px;
@@ -188,10 +198,8 @@ footer b{color:var(--accent)}
   .pool{grid-row:3;padding:12px}
   .reels{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
   .reel{padding:8px}
-  .wheel-frame{width:min(100%,104px)}
-  .reel .face{min-height:40px;gap:4px;flex-wrap:wrap}
-  .reel strong{overflow-wrap:anywhere}
-  .franchise-mark{min-width:0;min-height:20px}
+  .reel-front{min-height:90px}
+  .role-filters button{min-height:44px}
   .reel button{align-self:stretch;min-height:44px;padding:5px}
   .slots{grid-template-columns:repeat(2,minmax(0,1fr));padding:6px}
   .slot{padding:6px;gap:5px;overflow-wrap:anywhere}
