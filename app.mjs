@@ -61,7 +61,7 @@ function reel(axis, label, choices, selected, flip) {
 }
 function draftScreen(flip) {
   const pair=draft?.pair;
-  return `<section class="panel reel-panel" tabindex="-1"><div class="section-head"><h2>Draft reels</h2><span class="badge">ROUND ${(draft?.picks.size ?? 0)+1} / 6</span></div>
+  return `<section class="panel reel-panel" tabindex="-1" aria-label="Draft"><div class="section-head"><span class="badge">ROUND ${(draft?.picks.size ?? 0)+1} / 6</span></div>
     <div class="reels">${reel('team','TEAM',Object.keys(teams),Object.keys(teams).indexOf(pair?.team),flip)}
     ${reel('cycle','ERA',cycles,pair?.cycle ?? -1,flip)}</div></section>
     <section class="panel pool" id="pool" tabindex="-1" aria-busy="${spinning}">${spinning?'<p class="aside-note">Drawing the next board…</p>':pair?'':`<div class="section-head"><h2>On the board</h2></div>
@@ -170,7 +170,9 @@ function resultsScreen() {
       <button class="secondary retry" type="button" data-share-team>Share team</button>
       <button class="primary retry" data-retry>Retry game</button>
     </div>
-    <div class="share-fallback" hidden><label for="share-roster">Copy your team to share it</label><textarea id="share-roster" readonly rows="6"></textarea></div></section>`;
+    <div class="share-fallback" hidden><label for="share-roster">Copy your team to share it</label><textarea id="share-roster" readonly rows="6"></textarea></div>
+    <p class="creator-credit">Built by <a href="https://www.linkedin.com/in/naman-satija234/" target="_blank" rel="noopener noreferrer">Naman Satija</a></p>
+    <details class="creator-about"><summary>About the creator</summary><p>Naman Satija built IPL 14–0 to let fans draft across IPL eras and chase a perfect season.</p></details></section>`;
 }
 async function shareTeamResult() {
   if (!result) return;
