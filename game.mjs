@@ -145,10 +145,10 @@ export const slate = [
   ['MI','Wankhede',187, 2, .88,1.20], ['CSK','Chepauk',169, 1,1.25,.92],
   ['RCB','Chinnaswamy',195, 3,.88,1.15], ['RR','Jaipur',177,-1,1.12,.96],
   ['GT','Ahmedabad',183, 2,.94,1.11], ['PBKS','Mullanpur',179,-2,1,1.05],
-  ['KKR','Eden Gardens',189, 1,1.15,1.01], ['SRH','Hyderabad',199, 2,.83,1.20],
+  ['KKR','Eden Gardens',189, 1,1.15,1.01], ['SRH','Hyderabad',199, 5,.83,1.20],
   ['LSG','Ekana',166,-2,1.26,.85], ['DC','Delhi',193,-1,.93,1.12],
-  ['CSK','Chepauk',169, 1,1.25,.92], ['MI','Wankhede',187, 2,.88,1.20],
-  ['GT','Ahmedabad',183, 2,.94,1.11], ['RCB','Chinnaswamy',195, 3,.88,1.15]
+  ['CSK','Chepauk',169, 4,1.25,.92], ['MI','Wankhede',187, 2,.88,1.20],
+  ['GT','Ahmedabad',183, 2,.94,1.11], ['RCB','Chinnaswamy',195, 6,.88,1.15]
 ];
 const average = (values, weights) => values.reduce((sum, value, i) => sum + value * weights[i], 0);
 const battingPlan = [
@@ -231,7 +231,7 @@ export function profile(picks) {
 export function simulate(picks, seed, strengths = profile(picks)) {
   const {battingByMatch, spin, death, newBall, allRound, keeping, fielding} = strengths;
   const random = seeded(seed);
-  const noise = () => (random()+random()+random()+random()+random()+random()-3)*18.3;
+  const noise = () => (random()+random()+random()+random()+random()+random()-3)*19.2;
   const matches = slate.map(([opponent, venue, par, difficulty, spinFit, paceFit], i) => {
     const {opening,middleBat,finishing} = battingByMatch[i];
     const balance = Math.min(2, Math.max(0, opening), Math.max(0, finishing));
