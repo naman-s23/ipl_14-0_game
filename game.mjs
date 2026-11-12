@@ -194,31 +194,46 @@ export function battingXI(picks) {
   });
 }
 export function profile(picks) {
-  const contributions = battingXI(picks).map(({player:p}, i) => {
-    if (!p) return 0;
+  const battingSlots = battingXI(picks).map(({player:p}, i) => {
+    const workload = battingExposure[i];
+    if (!p) return {workload, historicalBalls:0, edge:0};
     const phase = average(p.bat.edge, battingPlan[i]);
-    return (phase * .70 + p.bat.overall * .30) * battingExposure[i];
+    return {workload, historicalBalls:p.bat.balls, edge:phase*.70+p.bat.overall*.30};
   });
+  const battingByMatch = slate.map((_,matchIndex)=>{
+    const contributions = battingSlots.map(({workload,historicalBalls,edge})=>{
+      const remaining = historicalBalls-matchIndex*workload;
+      return edge*Math.min(workload,Math.max(0,remaining));
+    });
+    return {
+      opening: contributions[0]+contributions[1],
+      middleBat: contributions.slice(2,5).reduce((a,b)=>a+b,0),
+      finishing: contributions.slice(5).reduce((a,b)=>a+b,0)
+    };
+  });
+  const seasonAverage = key => battingByMatch.reduce((sum,match)=>sum+match[key],0)/battingByMatch.length;
   const spinner = picks.get('sp').bowl;
   const pacer = picks.get('pc').bowl;
   const all = picks.get('ar').bowl;
   return {
-    opening: contributions[0]+contributions[1],
-    middleBat: contributions.slice(2,5).reduce((a,b)=>a+b,0),
-    finishing: contributions.slice(5).reduce((a,b)=>a+b,0),
+    opening: seasonAverage('opening'),
+    middleBat: seasonAverage('middleBat'),
+    finishing: seasonAverage('finishing'),
+    battingByMatch,
     spin: spinner.edge[1]*22,
-    death: pacer.edge[2]*14,
-    newBall: pacer.edge[0]*9 + pacer.edge[1]*3,
+    death: pacer.edge[2]*11,
+    newBall: pacer.edge[0]*12 + pacer.edge[1]*3,
     allRound: average(all.edge,[.25,.55,.20])*16,
     keeping: (picks.get('wk').ratings.wk-averageRating)*.12,
     fielding: slots.reduce((sum,[key])=>sum+(picks.get(key).fielding?.edge ?? 0),0)
   };
 }
 export function simulate(picks, seed, strengths = profile(picks)) {
-  const {opening, middleBat, finishing, spin, death, newBall, allRound, keeping, fielding} = strengths;
+  const {battingByMatch, spin, death, newBall, allRound, keeping, fielding} = strengths;
   const random = seeded(seed);
   const noise = () => (random()+random()+random()+random()+random()+random()-3)*18.3;
   const matches = slate.map(([opponent, venue, par, difficulty, spinFit, paceFit], i) => {
+    const {opening,middleBat,finishing} = battingByMatch[i];
     const balance = Math.min(2, Math.max(0, opening), Math.max(0, finishing));
     const bat = opening + middleBat + finishing + balance - battingCalibration;
     const defense = spin*spinFit + (death+newBall)*paceFit + allRound + keeping + fielding;
