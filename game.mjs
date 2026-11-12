@@ -158,7 +158,12 @@ const battingPlan = [
 ];
 const battingExposure = [26,26,22,18,15,12,8,4,2,1,.5];
 const battingCalibration = 5.5;
+export const battingBand = position => Math.min(3,Math.floor((position-1)/3));
 const positionFit = (p, i) => {
+  if (p.battingModes?.length) {
+    const band = battingBand(i+1);
+    return 3*Math.min(...p.battingModes.map(mode=>Math.abs(band-mode)));
+  }
   const usual = p.pos ?? 9;
   return Math.abs((i < 2 ? 2 : i+1) - Math.max(2, usual));
 };
