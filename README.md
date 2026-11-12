@@ -1,6 +1,6 @@
 # 14–0: IPL Draft Challenge
 
-**[Play the game here](https://classy-klepon-5de775.netlify.app/)**
+**[Play the game here](https://ipl14-0game.vercel.app/)**
 
 **Draft six IPL cricketers. Build an XI. Try to win all 14 matches.**
 
