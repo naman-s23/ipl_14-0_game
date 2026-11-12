@@ -159,20 +159,19 @@ const battingPlan = [
 const battingExposure = [26,26,22,18,15,12,8,4,2,1,.5];
 const battingCalibration = 5.5;
 export const battingBand = position => Math.min(3,Math.floor((position-1)/3));
-const positionFit = (p, i) => {
-  if (p.battingModes?.length) {
-    const band = battingBand(i+1);
-    return 3*Math.min(...p.battingModes.map(mode=>Math.abs(band-mode)));
-  }
-  const usual = p.pos ?? 9;
-  return Math.abs((i < 2 ? 2 : i+1) - Math.max(2, usual));
+const positionPenalty = (player, position) => {
+  const regular = player.regularBattingPositions;
+  if (!regular?.length) return 0;
+  const spot = Math.max(2,position);
+  return 4*Math.min(...regular.map(preferred=>Math.abs(spot-preferred)));
 };
 export function battingXI(picks) {
   if (slots.some(([key]) => !picks.has(key))) throw new Error('Complete the lineup first.');
   // Use a stable player order so drafting or swapping eligible roles does not change batting ties.
   const core = [...picks.values()].sort((a,b)=>a.name.localeCompare(b.name));
   const costs = battingPlan.map((weights,i)=>core.map(p=>
-    positionFit(p,i) - average(p.bat.edge,weights)*2));
+    (p.regularBattingPositions?.length ? positionPenalty(p,i+1) :
+      Math.abs(Math.max(2,i+1)-Math.max(2,p.pos??9))) - average(p.bat.edge,weights)*2));
   const full = (1 << core.length)-1;
   const best = Array.from({length:12},()=>Array(full+1).fill(Infinity));
   best[11][full]=0;
@@ -198,7 +197,8 @@ export function profile(picks) {
     const workload = battingExposure[i];
     if (!p) return {workload, historicalBalls:0, edge:0};
     const phase = average(p.bat.edge, battingPlan[i]);
-    return {workload, historicalBalls:p.bat.balls, edge:phase*.70+p.bat.overall*.30};
+    const fitCost = positionPenalty(p,i+1)/workload;
+    return {workload, historicalBalls:p.bat.balls, edge:phase*.70+p.bat.overall*.30-fitCost};
   });
   const battingByMatch = slate.map((_,matchIndex)=>{
     const contributions = battingSlots.map(({workload,historicalBalls,edge})=>{
