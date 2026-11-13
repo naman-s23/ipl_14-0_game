@@ -9,7 +9,12 @@ const esc = value => String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 const randomSeed = () => crypto.getRandomValues(new Uint32Array(1))[0].toString(36).toUpperCase();
 const announce = message => { status.textContent=message; };
 let players, draft, order, seed, result, sort;
-let hardMode = false;
+let difficulty = 'easy';
+const modeDescriptions = {
+  easy:'See player stats and ratings. The board starts sorted by best available slot rating.',
+  medium:'See player stats by role. Ratings are hidden, with a rating-based sort available for all-rounders.',
+  hard:'Draft by name and eligible role. Your six picks’ stats are revealed after the season.'
+};
 let spinning = false;
 let awaitingSpin = true;
 let seasonTimer;
@@ -26,6 +31,7 @@ const teamTint = team => teamColors[team] ? ` style="--team-color:${teamColors[t
 const playerName = p => esc(p.name)+(p.overseas?'<span role="img" aria-label="Overseas player"> ✈️</span>':'');
 
 function lineup(picks) {
+  const hardMode=difficulty==='hard';
   return `<aside class="panel lineup"><div class="section-head">
     <h2>Your lineup</h2><span class="badge">${picks.size} / 6</span></div>
     <div class="progress" aria-hidden="true"><span style="width:${picks.size/6*100}%"></span></div>
@@ -36,6 +42,7 @@ function lineup(picks) {
         <div class="slot-player" ${moves.length?`draggable="true" data-drag-slot="${id}"`:''}><strong>${p?playerName(p):label}</strong>
         <small>${p?(hardMode?label:`${label} · ${p.team} · ${cycles[p.cycle]}`):'Open slot'}</small>
         </div>
+        ${p&&difficulty==='easy'?`<span class="rating slot-rating" aria-label="Role rating ${p.ratings[slotRole[id]]}">${p.ratings[slotRole[id]]}</span>`:''}
         ${moves.length?`<select class="role-move" data-role-move="${id}" aria-label="Move ${esc(p.name)} to another role">
           <option value="">Move role…</option>${moves.map(([to,,name])=>`<option value="${to}">${name}${picks.has(to)?' (swap)':''}</option>`).join('')}
         </select>`:''}</li>`;
@@ -71,20 +78,22 @@ function draftScreen(flip) {
         <p>Spin to draw an IPL franchise and auction cycle. Draft one player per round by dragging them into an eligible slot or tapping their role. Move or swap picks between eligible slots as you go.</p>
         <p>You have one respin per wheel and can draft up to ${overseasCap} overseas players. Draft six players, then simulate 14 matches and try to win them all.</p>
         <fieldset class="mode-toggle"><legend>Difficulty</legend>
-          <label><input type="radio" name="difficulty" value="standard" ${!hardMode?'checked':''}><span>Normal</span></label>
-          <label><input type="radio" name="difficulty" value="hard" ${hardMode?'checked':''}><span>Hard</span></label>
+          ${Object.entries({easy:'Easy',medium:'Medium',hard:'Hard'}).map(([mode,label])=>
+            `<label><input type="radio" name="difficulty" value="${mode}" aria-describedby="mode-description" ${difficulty===mode?'checked':''}><span>${label}</span></label>`).join('')}
         </fieldset>
-        <p class="footnote">Hard mode shows player names and eligible roles during the draft.</p>
+        <p class="footnote" id="mode-description" aria-live="polite">${modeDescriptions[difficulty]}</p>
         </div>`}</section>`;
 }
 const rate = (n,d,m,places=1) => d ? (n/d*m).toFixed(places) : '—';
 function card(p,eligible,index,recap=false) {
   const available=eligible ?? [];
   const actions = available.map(id=>{
-    return `<button class="pick" data-player="${index}" data-slot="${id}" aria-label="Draft ${esc(p.name)} as ${slotName[id]}">${slotName[id]}</button>`;
+    return `<button class="pick" data-player="${index}" data-slot="${id}" aria-label="Draft ${esc(p.name)} as ${slotName[id]}">${slotName[id]}${difficulty==='easy'?` · ${p.ratings[slotRole[id]]}`:''}</button>`;
   }).join('') || '<span class="footnote">Unavailable for this lineup</span>';
   const drag = available.length&&!recap?`draggable="true" data-drag-player="${index}"`:'';
-  if (hardMode&&!recap) return `<article class="card" ${drag}><h3>${playerName(p)}</h3><div class="actions">${actions}</div></article>`;
+  if (difficulty==='hard'&&!recap) return `<article class="card" ${drag}><h3>${playerName(p)}</h3><div class="actions">${actions}</div></article>`;
+  const ratedSlots = available.filter(id=>recap||roleFilter==='all'||slotRole[id]===roleFilter);
+  const bestRating = Math.max(...ratedSlots.map(id=>p.ratings[slotRole[id]]));
   const {bat,bowl,keeping} = p;
   const batStats = [[bat.runs,'RUNS'],[rate(bat.runs,bat.balls,100),'STRIKE RATE'],
     [rate(bat.runs,bat.wickets,1,2),'AVERAGE'],[bat.fours,'FOURS'],[bat.sixes,'SIXES'],
@@ -98,7 +107,7 @@ function card(p,eligible,index,recap=false) {
   return `<article class="card" ${drag}>
     <header><div><span class="eyebrow">${p.team} / ${cycles[p.cycle]}${recap?` · ${slotName[available[0]]}`:''}</span><h3>${playerName(p)}</h3>
       <div class="origin">${p.overseas===null?'Country unverified':p.overseas?`Overseas · ${esc(p.country)}`:'Domestic · India'}</div></div>
-    </header>
+      ${difficulty==='easy'&&ratedSlots.length?`<div class="rating">${bestRating}<small>RATING</small></div>`:''}</header>
     <p class="footnote">${p.matches} matches · ${p.innings} batting innings · ${p.fielding.catches} fielding catches</p>
     ${showBat?`<h4>Batting</h4>${stats(batStats)}`:''}
     ${showBowl?`<h4>Bowling</h4>${stats(bowlStats)}`:''}
@@ -131,16 +140,21 @@ const sortStats = {
 function renderPool() {
   const pool=document.querySelector('#pool');
   const options=draft.options;
-  const sortChoices=sortsByRole[roleFilter]??[];
-  const metric=sortStats[sortChoices.includes(sort)?sort:sortChoices[0]]?.[1];
+  const hardMode=difficulty==='hard';
+  const roleSorts=sortsByRole[roleFilter]??[...battingSorts,...bowlingSorts,'dismissals'];
+  const sortChoices=difficulty==='easy'?['rating',...roleSorts.filter(id=>id!=='rating')]:roleSorts;
+  const selectedSort=sortChoices.includes(sort)?sort:sortChoices[0];
+  const metric=selectedSort==='rating'&&difficulty==='easy'
+    ? p=>Math.max(...options.get(p).filter(id=>roleFilter==='all'||slotRole[id]===roleFilter).map(id=>p.ratings[slotRole[id]]))
+    : sortStats[selectedSort][1];
   visible=[...options.keys()]
     .filter(p=>roleFilter==='all'||options.get(p).some(id=>slotRole[id]===roleFilter))
     .sort((a,b)=>(!hardMode&&metric?metric(b)-metric(a):0)||a.name.localeCompare(b.name));
   pool.innerHTML=`<div class="section-head"><h2>On the board <span class="badge">${options.size} eligible</span></h2>
     ${hardMode?'<span class="badge">Hard · names only</span>':`<div class="controls"><label class="sr-only" for="sort">Sort player cards</label><select id="sort">
-      ${sortChoices.map(id=>`<option value="${id}" ${sort===id?'selected':''}>${sortStats[id][0]}</option>`).join('')}
+      ${sortChoices.map(id=>`<option value="${id}" ${selectedSort===id?'selected':''}>${sortStats[id][0]}</option>`).join('')}
     </select></div>`}</div>
-    <div class="role-filters" role="group" aria-label="Filter players by role">${Object.entries(roleFilters).filter(([id])=>hardMode||id!=='all').map(([id,label])=>
+    <div class="role-filters" role="group" aria-label="Filter players by role">${Object.entries(roleFilters).filter(([id])=>difficulty!=='medium'||id!=='all').map(([id,label])=>
       `<button type="button" class="quiet" data-filter="${id}" aria-pressed="${roleFilter===id}">${label}</button>`).join('')}</div>
     <p class="aside-note"><span class="drag-hint">Drag a player to an eligible slot, or select a role on their card.</span><span class="tap-hint">Tap a role to draft a player.</span></p>
     <div class="cards">${visible.length?visible.map((p,i)=>card(p,options.get(p),i)).join(''):'<p class="footnote">No players match this role on this board.</p>'}</div>`;
@@ -241,7 +255,7 @@ function spin(axis) {
   announce('Spinning the draft wheel.');
   spinTimer = setTimeout(()=>{
     spinning = false;
-    if (!hardMode) {
+    if (difficulty!=='hard' && roleFilter!=='all') {
       const availableRoles = new Set([...draft.options.values()].flatMap(ids=>ids.map(id=>slotRole[id])));
       if (!availableRoles.has(roleFilter)) {
         roleFilter=Object.keys(sortsByRole).find(role=>availableRoles.has(role));
@@ -255,7 +269,7 @@ function spin(axis) {
   },spinDuration);
 }
 function restart() {
-  roleFilter=hardMode?'all':'bat';
+  roleFilter=difficulty==='medium'?'bat':'all';
   clearTimeout(spinTimer);
   clearTimeout(seasonTimer);
   seasonTimer=undefined;
@@ -362,10 +376,11 @@ game.addEventListener('change',event=>{
     return;
   }
   if (event.target.name==='difficulty' && !draft) {
-    hardMode=event.target.value==='hard';
+    difficulty=event.target.value;
+    document.getElementById('mode-description').textContent=modeDescriptions[difficulty];
     return;
   }
-  if (spinning || awaitingSpin || !draft?.pair || hardMode) return;
+  if (spinning || awaitingSpin || !draft?.pair || difficulty==='hard') return;
   if (event.target.id!=='sort') return;
   sort=event.target.value;
   const id=event.target.id;
@@ -378,7 +393,7 @@ game.addEventListener('click',event=>{
   const {start,respin,slot,player,filter,shareTeam,retry:retryButton}=button.dataset;
   if (start!==undefined) {
     if (!awaitingSpin) return;
-    if (!draft) roleFilter=hardMode?'all':'bat';
+    if (!draft) roleFilter=difficulty==='medium'?'bat':'all';
     draft ??= createDraft(players);
     spin('both');
   } else if (respin && !awaitingSpin && draft.respin(respin)) {
