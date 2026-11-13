@@ -212,7 +212,8 @@ async function shareTeamResult() {
   const url='https://ipl14-0game.vercel.app/';
   const roster=order.filter(({player})=>player).map(({name,player})=>
     `• ${name}${player.overseas?' ✈️':''} (${player.team}, ${cycles[player.cycle]})`).join('\n');
-  const message=`I went ${record} in the IPL 14–0 Challenge!\n\nMy six picks:\n${roster}`;
+  const mode = difficulty[0].toUpperCase()+difficulty.slice(1);
+  const message=`I went ${record} in the IPL 14–0 Challenge on ${mode} mode!\n\nMy six picks:\n${roster}`;
   const copy=`${message}\n\nPlay the challenge: ${url}`;
   try {
     if (navigator.share) {
