@@ -104,7 +104,7 @@ select,input{background:#0e1615;color:var(--text);border:1px solid #43564d;borde
 .mode-toggle legend{padding:0 7px;font-size:12px}
 .mode-toggle label{position:relative;cursor:pointer}
 .mode-toggle input{position:absolute;opacity:0}
-.mode-toggle span{display:grid;place-items:center;min-height:44px;padding:0 20px;border-radius:999px;color:var(--text);font-weight:700}
+.mode-toggle span{display:grid;place-items:center;min-height:44px;padding:0 clamp(9px,3vw,20px);border-radius:999px;color:var(--text);font-weight:700}
 .mode-toggle input:checked + span{background:var(--accent);color:var(--ink)}
 .mode-toggle input:focus-visible + span{outline:2px solid var(--text);outline-offset:2px}
 .pool .aside-note{font-size:11px;color:var(--dim);margin:2px 0 11px}
