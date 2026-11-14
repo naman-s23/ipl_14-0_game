@@ -431,10 +431,29 @@ game.addEventListener('submit',event=>{
     seasonTimer=undefined;
     result=season;
     render();
+    if (season.wins===season.matches.length) showConfetti();
     document.querySelector('#record').focus();
   }
   seasonTimer=setTimeout(advance,300);
 });
+function showConfetti() {
+  if (globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+  const burst=document.createElement('div');
+  burst.className='victory-confetti';
+  burst.setAttribute('aria-hidden','true');
+  const colors=['#ff7833','#b96aff','#befa80','#f5c94b','#6e9cf4'];
+  for (let i=0;i<100;i++) {
+    const piece=document.createElement('span');
+    piece.style.left=`${i}%`;
+    piece.style.backgroundColor=colors[i%colors.length];
+    piece.style.setProperty('--drift',`${Math.random()*20-10}vw`);
+    piece.style.animationDelay=`${Math.random()*.8}s`;
+    piece.style.animationDuration=`${2+Math.random()}s`;
+    burst.append(piece);
+  }
+  document.body.append(burst);
+  setTimeout(()=>burst.remove(),4000);
+}
 try {
   const response=await fetch('/pool.json');
   if (!response.ok) throw new Error('Pool unavailable');
