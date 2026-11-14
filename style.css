@@ -127,6 +127,10 @@ select,input{background:#0e1615;color:var(--text);border:1px solid #43564d;borde
 .team-review dd{margin:4px 0 0;font-weight:700}
 .retry{min-height:56px;width:min(100%,300px);font-size:18px}
 .result-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+.victory-confetti{position:fixed;inset:0;z-index:100;pointer-events:none;overflow:hidden}
+.victory-confetti span{position:absolute;top:-12px;width:8px;height:12px;animation:victory-fall linear both}
+.victory-confetti span:nth-child(3n){border-radius:50%;height:8px}
+@keyframes victory-fall{to{transform:translate(var(--drift),105vh) rotate(720deg)}}
 .spin-button.primary{display:block;width:100%;min-height:44px;margin-top:12px;background:#ff7833;border-color:#ff7833;color:#101217}
 .spin-button.primary:disabled{opacity:.5}
 .team-recap{margin:24px auto;max-width:920px;text-align:left}
